@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ORBIT — One Repository for Business Ideation &amp; Technology</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Open Tech Inc. — One Repository for Business Ideation &amp; Technology</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -15,9 +15,13 @@
     --acc:#FFD02F;         /* phase 01 acid yellow */
   }
   *{ box-sizing:border-box; }
-  html,body{ height:100%; }
+  html,body{
+    width:100%; height:100%; max-width:100vw; max-height:100vh;
+    margin:0; padding:0; overflow:hidden; overflow-x:hidden;
+    position:fixed; inset:0; touch-action:none; -webkit-text-size-adjust:100%;
+  }
   body{
-    margin:0; overflow:hidden; background:var(--bg); color:var(--ink);
+    background:var(--bg); color:var(--ink);
     font-family:'Space Grotesk', sans-serif;
     -webkit-font-smoothing:antialiased;
   }
@@ -25,7 +29,7 @@
   button{ font-family:inherit; }
   button:focus-visible{ outline:3px solid #141414; outline-offset:2px; }
 
-  #scene{ position:fixed; inset:0; display:block; cursor:grab; }
+  #scene{ position:fixed; inset:0; width:100%; height:100%; max-width:100vw; max-height:100vh; display:block; cursor:grab; touch-action:none; }
   #scene:active{ cursor:grabbing; }
 
   /* legibility scrim (cream) */
@@ -47,7 +51,7 @@
   .chip{
     display:inline-block; background:var(--acc); color:#141414;
     border:3px solid #141414; box-shadow:5px 5px 0 #141414;
-    padding:8px 20px; font-weight:700; font-size:18px; letter-spacing:.35em; text-indent:.35em;
+    padding:8px 18px; font-weight:700; font-size:16px; letter-spacing:.22em; text-indent:.22em;
     transition:background-color .5s;
   }
   #mark .tag{
@@ -121,16 +125,18 @@
   /* specimen panel — brutal card */
   #panel{
     position:fixed; left:48px; bottom:112px; z-index:3; width:min(480px,46vw);
+    max-width:calc(100vw - 96px);
     background:var(--paper); border:3px solid #141414; box-shadow:9px 9px 0 #141414;
     padding:26px 28px 12px;
     pointer-events:none;
     opacity:0; transform:translateY(14px);
     transition:opacity .5s ease, transform .5s ease;
+    overflow-x:hidden; box-sizing:border-box;
   }
   body.ready #panel{ opacity:1; transform:none; }
   body.ov #panel{ opacity:0; transform:translateY(14px); }
   #panel.swap .p-in{ opacity:0; transform:translateY(9px); }
-  .p-in{ transition:opacity .24s ease, transform .24s ease; }
+  .p-in{ width:100%; max-width:100%; overflow-x:hidden; transition:opacity .24s ease, transform .24s ease; }
 
   #ghost{
     position:absolute; top:-138px; left:-6px; z-index:-1;
@@ -141,7 +147,7 @@
     pointer-events:none; user-select:none;
     transition:color .5s;
   }
-  .p-kicker{ display:flex; align-items:center; gap:14px; }
+  .p-kicker{ display:flex; align-items:center; gap:14px; max-width:100%; }
   #pChip{
     display:grid; place-items:center; width:46px; height:46px; flex:none;
     background:var(--acc); border:3px solid #141414; box-shadow:4px 4px 0 #141414;
@@ -149,25 +155,27 @@
   }
   #pKicker{
     font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; letter-spacing:.22em;
-    color:#141414;
+    color:#141414; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
   #pName{
     margin:16px 0 12px; font-weight:700; text-transform:uppercase;
     font-size:clamp(30px, 3.4vw, 42px); line-height:1; letter-spacing:-.02em;
     border-bottom:6px solid var(--acc); display:inline-block; padding-bottom:4px;
+    max-width:100%; overflow-wrap:break-word; word-break:break-word;
     transition:border-color .5s;
   }
   #pBody{
     margin:0 0 16px; max-width:44ch; font-weight:500; font-size:14.5px;
     line-height:1.62; color:#33302a;
+    overflow-wrap:break-word; word-break:break-word;
   }
   .p-row{
     display:grid; grid-template-columns:84px 1fr; gap:12px; align-items:baseline;
-    border-top:2px solid #141414; padding:8px 0;
+    border-top:2px solid #141414; padding:8px 0; max-width:100%;
     font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em;
   }
   .p-row .lbl{ font-weight:600; letter-spacing:.2em; }
-  .p-row .val{ color:#55504a; line-height:1.7; }
+  .p-row .val{ color:#55504a; line-height:1.7; overflow-wrap:break-word; word-break:break-word; }
 
   /* nav */
   #nav{ position:fixed; right:44px; bottom:60px; z-index:3; text-align:right; }
@@ -192,10 +200,13 @@
   /* toast */
   #toast{
     position:fixed; bottom:122px; left:50%; transform:translate(-50%, 8px); z-index:4;
-    font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; letter-spacing:.2em;
+    font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; letter-spacing:.14em;
     color:var(--acc); background:#141414; border:2px solid #141414;
-    box-shadow:5px 5px 0 var(--acc);
-    padding:11px 22px; opacity:0; pointer-events:none;
+    box-shadow:4px 4px 0 var(--acc);
+    padding:10px 18px; opacity:0; pointer-events:none;
+    max-width:min(500px, calc(100vw - 28px)); text-align:center;
+    white-space:normal; word-break:break-word; overflow-wrap:break-word;
+    box-sizing:border-box;
     transition:opacity .35s, transform .35s, box-shadow .5s;
   }
   #toast.show{ opacity:1; transform:translate(-50%,0); }
@@ -203,6 +214,7 @@
   /* hazard-tape progress + ticker */
   #prog{
     position:fixed; left:0; right:0; bottom:36px; height:12px; z-index:3;
+    width:100%; max-width:100vw; overflow:hidden; box-sizing:border-box;
     background:#141414;
   }
   #progFill{
@@ -214,10 +226,10 @@
   }
   @keyframes tape{ to{ background-position:40px 0; } }
 
-
   #ticker{
     position:fixed; left:0; right:0; bottom:0; height:36px; z-index:3;
-    background:#141414; color:#f2ecdf; overflow:hidden;
+    width:100%; max-width:100vw; overflow:hidden; contain:paint; box-sizing:border-box;
+    background:#141414; color:#f2ecdf;
     display:flex; align-items:center;
   }
   #tickerInner{
@@ -242,7 +254,7 @@
   }
   #loader.done{ opacity:0; pointer-events:none; }
   .l-in{ text-align:center; }
-  .l-in .chip{ font-size:26px; padding:14px 30px; box-shadow:8px 8px 0 #141414; }
+  .l-in .chip{ font-size:22px; padding:12px 24px; letter-spacing:.22em; text-indent:.22em; box-shadow:8px 8px 0 #141414; }
   .l-bar{
     width:150px; height:16px; margin:30px auto 18px;
     border:3px solid #141414; background:var(--paper); overflow:hidden;
@@ -252,6 +264,9 @@
     background:repeating-linear-gradient(-45deg, var(--acc) 0 10px, #141414 10px 20px);
     animation:lfill 1.3s cubic-bezier(.6,0,.2,1) forwards;
   }
+  #pToggleBadge{ display:none; }
+  .m-title{ display:none; }
+
   @keyframes lfill{ to{ width:100%; } }
   .l-in p{
     margin:0; font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600;
@@ -260,13 +275,102 @@
 
   @media (max-width:820px){
     #rail, #hint, #mark .tag, .cnr{ display:none; }
-    #mark{ top:18px; left:18px; }
-    #ovBtn{ top:18px; right:16px; padding:10px 14px; }
-    #panel{ left:16px; right:16px; width:auto; bottom:100px; padding:20px 18px 10px; }
-    #ghost{ font-size:104px; top:-74px; left:-4px; text-shadow:6px 6px 0 #141414; }
-    #pBody{ font-size:13px; }
-    #nav{ right:16px; bottom:56px; }
-    #toast{ bottom:108px; max-width:92vw; }
+    #mark{ top:14px; left:14px; max-width:calc(100vw - 140px); }
+    #mark .chip{ padding:6px 12px; font-size:13px; letter-spacing:.16em; text-indent:.16em; box-shadow:3px 3px 0 #141414; }
+    #ovBtn{
+      top:14px; right:14px; padding:8px 12px; font-size:8.5px; letter-spacing:.12em;
+      max-width:calc(100vw - 130px); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+
+    /* Make background clearly visible on mobile (no opaque horizontal cream wash) */
+    #scrim{
+      background:linear-gradient(180deg, rgba(242,236,223,0) 60%, rgba(242,236,223,.5) 100%);
+      opacity:.25;
+      transition:opacity .35s ease;
+    }
+    body.panel-open #scrim{
+      opacity:.85;
+      background:rgba(242,236,223,.75);
+    }
+
+    /* Collapsed card by default on mobile to keep 3D background visible */
+    #panel{
+      left:12px; right:12px; width:auto; max-width:calc(100vw - 24px); bottom:108px;
+      padding:10px 12px;
+      pointer-events:auto;
+      cursor:pointer;
+      user-select:none;
+      max-height:50px;
+      overflow:hidden;
+      overflow-x:hidden;
+      box-shadow:4px 4px 0 #141414;
+      border:2.5px solid #141414;
+      box-sizing:border-box;
+      transition:max-height .35s cubic-bezier(.2,0,.2,1), padding .3s ease, box-shadow .2s ease, opacity .5s ease, transform .5s ease;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    /* Expanded card when tapped */
+    #panel.expanded{
+      max-height:min(64vh, 500px);
+      overflow-y:auto;
+      overflow-x:hidden;
+      padding:16px 14px 14px;
+      box-shadow:5px 5px 0 #141414;
+      -webkit-overflow-scrolling:touch;
+    }
+
+    .p-kicker{
+      display:flex; align-items:center; gap:8px; width:100%; max-width:100%;
+    }
+    #pChip{
+      width:30px; height:30px; font-size:13px; border:2px solid #141414; box-shadow:2px 2px 0 #141414;
+      flex:none;
+    }
+    .p-title-wrap{
+      display:flex; flex-direction:column; justify-content:center; flex:1; min-width:0; overflow:hidden;
+    }
+    .m-title{
+      display:block; font-size:13px; font-weight:700; text-transform:uppercase;
+      letter-spacing:.04em; color:#141414; line-height:1.2;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    #pKicker{
+      font-size:8.5px; letter-spacing:.14em; color:#55504a;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+      line-height:1.2; margin-top:2px;
+    }
+
+    /* Mobile toggle badge on the right */
+    #pToggleBadge{
+      display:inline-flex; align-items:center; gap:5px;
+      background:#141414; color:#f2ecdf;
+      font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:700; letter-spacing:.16em;
+      padding:5px 9px; border:1.5px solid #141414; box-shadow:2px 2px 0 var(--acc);
+      flex:none; cursor:pointer;
+      transition:background-color .2s, color .2s, box-shadow .2s;
+    }
+    #panel.expanded #pToggleBadge{
+      background:var(--acc); color:#141414; box-shadow:2px 2px 0 #141414;
+    }
+
+    /* Hide detailed body elements when collapsed */
+    #ghost{ display:none; }
+    #pName{
+      margin:12px 0 8px; font-size:24px; border-bottom-width:4px;
+      display:none; max-width:100%; overflow-wrap:break-word; word-break:break-word;
+    }
+    #pBody{ font-size:12.5px; line-height:1.55; margin:0 0 12px; display:none; max-width:100%; overflow-wrap:break-word; word-break:break-word; }
+    .p-row{ padding:6px 0; font-size:9px; display:none; max-width:100%; }
+    .p-row .val{ overflow-wrap:break-word; word-break:break-word; }
+
+    /* Reveal detailed body elements when expanded */
+    #panel.expanded #pName{ display:inline-block; }
+    #panel.expanded #pBody{ display:block; }
+    #panel.expanded .p-row{ display:grid; }
+
+    #nav{ right:14px; bottom:52px; }
+    #toast{ bottom:114px; max-width:min(480px, calc(100vw - 24px)); }
   }
 </style>
 <script type="importmap">
@@ -288,7 +392,7 @@
 <span class="cnr" style="bottom:64px; left:44px;">+</span>
 
 <header id="mark">
-  <span class="chip">ORBIT</span><br>
+  <span class="chip">OPEN TECH INC.</span><br>
   <span class="tag">OPEN-AIR MONUMENTS PARK &amp; SDLC RESEARCH SANCTUARY</span>
 </header>
 
@@ -301,7 +405,13 @@
   <div class="p-in">
     <div class="p-kicker">
       <span id="pChip">01</span>
-      <span id="pKicker">CHART THE COURSE</span>
+      <div class="p-title-wrap">
+        <span id="pMobileTitle" class="m-title">PLANNING</span>
+        <span id="pKicker">CHART THE COURSE</span>
+      </div>
+      <button id="pToggleBadge" type="button" aria-label="Toggle details">
+        <span class="tb-label">DETAILS</span> <span class="tb-icon">▲</span>
+      </button>
     </div>
     <h2 id="pName">Planning</h2>
     <p id="pBody"></p>
@@ -329,9 +439,9 @@
 
 <div id="loader">
   <div class="l-in">
-    <span class="chip">ORBIT</span>
+    <span class="chip">OPEN TECH INC.</span>
     <div class="l-bar"><i></i></div>
-    <p>ONE REPOSITORY FOR BUSINESS IDEATION &amp; TECHNOLOGY<br>ASSEMBLING SEVEN SPECIMENS</p>
+    <p>OPEN TECH INC. · SDLC RESEARCH SANCTUARY<br>ASSEMBLING SEVEN SPECIMENS</p>
   </div>
 </div>
 
@@ -3735,8 +3845,13 @@ const railEls = PHASES.map((p,i)=>{
 function camFor(i){
   const a = i/7*Math.PI*2 - Math.PI/2 + 0.42;
   const sp = stations[i].group.position;
+  const aspect = Math.max(0.35, camera.aspect || (innerWidth / innerHeight));
+  // Responsive distance scaling: when aspect < 1.05 (portrait / narrow screens), scale camera distance so entire monument & surrounding visitors fit comfortably in view
+  const dMult = aspect < 1.05 ? Math.min(1.65, 1.05 / aspect) : 1.0;
+  const rad = R + 9 * dMult;
+  const camY = 4.1 + 1.5 * dMult;
   return {
-    pos: new THREE.Vector3(Math.cos(a)*(R+9), 5.6, Math.sin(a)*(R+9)),
+    pos: new THREE.Vector3(Math.cos(a)*rad, camY, Math.sin(a)*rad),
     tgt: new THREE.Vector3(sp.x, 4.1, sp.z)
   };
 }
@@ -3751,6 +3866,7 @@ function panelSwap(P){
   clearTimeout(swapT);
   swapT = setTimeout(()=>{
     $('pChip').textContent = P.num;
+    if($('pMobileTitle')) $('pMobileTitle').textContent = P.name.toUpperCase();
     $('pKicker').textContent = P.kicker;
     $('pName').textContent = P.name;
     $('pBody').textContent = P.body;
@@ -3777,6 +3893,7 @@ function goPhase(i, doFly=true){
   ghost.textContent = P.num;
   railEls.forEach((el,k)=>el.classList.toggle('active', k===idx));
   progFill.style.width = ((idx+1)/7*100)+'%';
+  if(innerWidth <= 820) setMobilePanelState(false);
   panelSwap(P);
 
   stations.forEach((s,k)=>{
@@ -3800,8 +3917,9 @@ function setOverview(on){
   document.body.classList.toggle('ov', on);
   ovLabel.textContent = on ? 'RETURN TO MONUMENT' : 'VIEW THE SANCTUARY';
   if(on){
-    controls.maxDistance = 90;
-    const d = camera.aspect < 0.9 ? 1.35 : 1;
+    controls.maxDistance = 140;
+    const aspect = Math.max(0.35, camera.aspect || (innerWidth / innerHeight));
+    const d = aspect < 1.05 ? Math.min(1.8, 1.05 / aspect) : 1.0;
     flyTo(new THREE.Vector3(0, 30*d, 38*d), new THREE.Vector3(0, 1, 0), 1.9, 0);
     toast('SEVEN MONUMENTS · OPEN-AIR NATURE SANCTUARY — EXPLORE THE VALLEY');
   } else {
@@ -3832,13 +3950,60 @@ addEventListener('keydown', e=>{
   else if(e.key==='Escape' && overview) setOverview(false);
   else if(/^[1-7]$/.test(e.key)) goPhase(+e.key-1);
 });
-canvas.addEventListener('pointerdown', ()=>{ lastInteract = performance.now(); });
+// Mobile-only card expand/collapse toggle
+const pToggleBadge = $('pToggleBadge');
+function setMobilePanelState(open){
+  if(innerWidth > 820) return;
+  const isExp = panel.classList.toggle('expanded', open);
+  document.body.classList.toggle('panel-open', isExp);
+  const tbLabel = pToggleBadge ? pToggleBadge.querySelector('.tb-label') : null;
+  const tbIcon = pToggleBadge ? pToggleBadge.querySelector('.tb-icon') : null;
+  if(tbLabel) tbLabel.textContent = isExp ? 'CLOSE' : 'DETAILS';
+  if(tbIcon) tbIcon.textContent = isExp ? '▼' : '▲';
+}
+
+panel.addEventListener('click', (e)=>{
+  if(innerWidth > 820) return;
+  setMobilePanelState(!panel.classList.contains('expanded'));
+});
+
+canvas.addEventListener('pointerdown', ()=>{
+  lastInteract = performance.now();
+  // Collapses open card on mobile when interacting with 3D scene
+  if(innerWidth <= 820 && panel.classList.contains('expanded')){
+    setMobilePanelState(false);
+  }
+});
 
 addEventListener('resize', ()=>{
   camera.aspect = innerWidth/innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight);
+  if(innerWidth > 820){
+    panel.classList.remove('expanded');
+    document.body.classList.remove('panel-open');
+  }
+  if(!flight && active >= 0){
+    if(overview){
+      const aspect = Math.max(0.35, camera.aspect);
+      const d = aspect < 1.05 ? Math.min(1.8, 1.05 / aspect) : 1.0;
+      camera.position.set(0, 30*d, 38*d);
+      controls.target.set(0, 1, 0);
+    } else {
+      const c = camFor(active);
+      camera.position.copy(c.pos);
+      controls.target.copy(c.tgt);
+    }
+    controls.update();
+  }
 });
+
+// Strictly prevent elastic window bouncing or accidental horizontal swipe gestures on touch devices
+addEventListener('touchmove', (e)=>{
+  if(!e.target || !e.target.closest || !e.target.closest('#panel.expanded')){
+    e.preventDefault();
+  }
+}, { passive:false });
 
 /* ============================================================
    MAIN LOOP
