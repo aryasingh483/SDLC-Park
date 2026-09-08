@@ -131,12 +131,12 @@
     pointer-events:none;
     opacity:0; transform:translateY(14px);
     transition:opacity .5s ease, transform .5s ease;
-    overflow-x:hidden; box-sizing:border-box;
+    box-sizing:border-box; overflow:visible;
   }
   body.ready #panel{ opacity:1; transform:none; }
   body.ov #panel{ opacity:0; transform:translateY(14px); }
   #panel.swap .p-in{ opacity:0; transform:translateY(9px); }
-  .p-in{ width:100%; max-width:100%; overflow-x:hidden; transition:opacity .24s ease, transform .24s ease; }
+  .p-in{ width:100%; max-width:100%; transition:opacity .24s ease, transform .24s ease; }
 
   #ghost{
     position:absolute; top:-138px; left:-6px; z-index:-1;
